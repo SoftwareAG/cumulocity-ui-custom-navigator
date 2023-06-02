@@ -38,4 +38,8 @@
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
+/**
+ * When changed to import 'zone.js' breaks dev server and build.
+ * TODO investigate.
+ */
 import 'zone.js/dist/zone'; // Included with Angular CLI.
