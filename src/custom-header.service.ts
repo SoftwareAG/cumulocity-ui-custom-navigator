@@ -1,13 +1,13 @@
 import { Injectable} from "@angular/core";
-import { OptionsService, HeaderService, NavigatorService, HumanizeAppNamePipe } from "@c8y/ngx-components";
+import { OptionsService, HeaderService, NavigatorService, HumanizeAppNamePipe, DrawerService } from "@c8y/ngx-components";
 
 @Injectable({ providedIn: 'root' })
 export class CustomHeaderService extends HeaderService {
-  constructor(navigatorService: NavigatorService, options: OptionsService, humanizeAppName: HumanizeAppNamePipe) {
+  constructor(options: OptionsService, humanizeAppName: HumanizeAppNamePipe, drawerService: DrawerService) {
     super(
-      navigatorService,
       options,
-      humanizeAppName
+      humanizeAppName,
+      drawerService
     );
     console.log("CustomHeaderService was called");
   }

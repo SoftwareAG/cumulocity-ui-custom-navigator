@@ -2,7 +2,14 @@ import { NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule as NgRouterModule } from "@angular/router";
 import { UpgradeModule as NgUpgradeModule } from "@angular/upgrade/static";
-import { CoreModule, HeaderService, RouterModule } from "@c8y/ngx-components";
+import {
+  CoreModule,
+  DataGridModule,
+  HeaderService,
+  RouterModule,
+  ViewContext,
+  hookRoute,
+} from "@c8y/ngx-components";
 import {
   DashboardUpgradeModule,
   UpgradeModule,
@@ -28,6 +35,8 @@ import { DatapointLibraryModule } from "@c8y/ngx-components/datapoint-library";
 import { WidgetsModule } from "@c8y/ngx-components/widgets";
 import { CustomAssetNodeService } from "./src/custom-asset-node.service";
 import { CustomHeaderService } from "./src/custom-header.service";
+import { CustomSubassetsComponent } from "./src/custom-subassets.component";
+import { DeviceGridModule } from "@c8y/ngx-components/device-grid";
 
 @NgModule({
   imports: [
@@ -35,10 +44,19 @@ import { CustomHeaderService } from "./src/custom-header.service";
     UpgradeModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(),
-    NgRouterModule.forRoot([...UPGRADE_ROUTES], {
-      enableTracing: false,
-      useHash: true,
-    }),
+    NgRouterModule.forRoot(
+      [
+        {
+          path: "subassets",
+          component: CustomSubassetsComponent,
+        },
+        ...UPGRADE_ROUTES,
+      ],
+      {
+        enableTracing: false,
+        useHash: true,
+      }
+    ),
     CoreModule.forRoot(),
     ReportsModule,
     NgUpgradeModule,
@@ -53,11 +71,20 @@ import { CustomHeaderService } from "./src/custom-header.service";
     ChildDevicesModule,
     CockpitConfigModule,
     DatapointLibraryModule.forRoot(),
+    DeviceGridModule,
     WidgetsModule,
   ],
+  declarations:[CustomSubassetsComponent],
   providers: [
     { provide: AssetNodeService, useClass: CustomAssetNodeService },
-   // { provide: HeaderService, useClass: CustomHeaderService },
+    hookRoute({
+      context: ViewContext.Group,
+      path: "subassets",
+      component: CustomSubassetsComponent,
+      priority: 10000,
+      label: "Custom Subassets",
+    }),
+    // { provide: HeaderService, useClass: CustomHeaderService },
   ],
 })
 export class AppModule extends HybridAppModule {
